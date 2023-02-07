@@ -6,11 +6,13 @@ public class Main {
 
     static Scanner input;
     static Map map;
+    static Submarine sub;
     public static void main(String[] args) {
 	// write your code here
         input = new Scanner(System.in);
         map = new Map();
-
+        sub = new Submarine();
+        sub.displayStatus(map);
         while(true){
             map.displayMap();
             System.out.println("Enter your direction (W, A, S, D):");

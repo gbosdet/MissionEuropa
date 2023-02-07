@@ -3,11 +3,21 @@ package com.company;
 public class Map {
     private Room[][] layout;
     private int[] location;
+    private static final String RESET = "\u001B[0m";
+    private String[] oreNames = {"Nothing",  "Titanium", "Gold", "Platinum", "Emerald", "Ruby", "Diamond"};
+    private String[] oreColours = {"\u001B[40m", "\u001B[46m", "\u001B[43m", "\u001B[45m", "\u001B[42m", "\u001B[41m", "\u001B[47m"};
 
-
+    private int[] ores = new int[7];
     public Map(){
         constructMap();
         location = new int[]{0, 2};
+    }
+
+    public void displayOres(){
+        for(int i = 1; i < oreColours.length; i++){
+            System.out.print(oreColours[i] + oreNames[i] + ":" + RESET + "  " + ores[i] +",  ");
+        }
+        System.out.println();
     }
     private void constructMap(){
         boolean[][][] option = poss();
@@ -55,13 +65,13 @@ public class Map {
 
         layout[4][0] = new Room(4, 4, option[12]);
         layout[4][1] = blocked;
-        layout[4][2] = new Room(2, 3, option[12]);
+        layout[4][2] = new Room(2, 2, option[12]);
         layout[4][3] = blocked;
         layout[4][4] = new Room(3, 4, option[12]);
 
         layout[5][0] = new Room(4, 4, option[9]);
         layout[5][1] = new Room(3, 4, option[3]);
-        layout[5][2] = new Room(3, 4, option[10]);
+        layout[5][2] = new Room(3, 2, option[10]);
         layout[5][3] = blocked;
         layout[5][4] = new Room(5, 5, option[8]);
         layout[0][2].setFound();
@@ -81,6 +91,7 @@ public class Map {
     }
 
     public void displayMap(){
+        displayOres();
         for(int i = 0; i <layout[0].length*2+1; i++){
             System.out.print("_");
         }
@@ -90,6 +101,7 @@ public class Map {
             for(int col = 0; col < layout[row].length; col++){
                 Room room = layout[row][col];
                 if(room.getFound()){
+                    System.out.print(oreColours[room.getOre()]);
                     if(location[0] == row && location[1] == col){
                         System.out.print("*");
                     }
@@ -99,6 +111,7 @@ public class Map {
                     else{
                         System.out.print(" ");
                     }
+                    System.out.print(RESET);
                     if(room.getOpenings()[1][1]){
                         System.out.print("=");
                     }
